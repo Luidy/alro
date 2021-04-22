@@ -16,14 +16,15 @@ func main() {
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 	log = logrus.StandardLogger()
 	alro := config.Alro
-	g := server.NewGRPCServer(alro)
+	g := server.NewGRPCServer()
 
 	startServer(alro, g)
 }
 
 func startServer(alro *viper.Viper, g *grpc.Server) {
 	address := fmt.Sprintf("0.0.0.0:%d", alro.GetInt("port"))
-	fmt.Printf("start ALRO!!!")
+	log.Println(address)
+	log.Println("Start ALRO!!!")
 
 	l, err := net.Listen("tcp", address)
 	if err != nil {
