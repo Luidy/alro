@@ -16,7 +16,11 @@ func main() {
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 	log = logrus.StandardLogger()
 	alro := config.Alro
-	g := server.NewGRPCServer()
+	g, err := server.NewGRPCServer()
+	if err != nil {
+		log.Println("End gRPC server", "err", err)
+		os.Exit(1)
+	}
 
 	startServer(alro, g)
 }

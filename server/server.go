@@ -1,6 +1,8 @@
 package server
 
 import (
+	model "alro/model"
+	"context"
 	"github.com/grpc-ecosystem/go-grpc-middleware"
 	"github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	"google.golang.org/grpc"
@@ -8,8 +10,20 @@ import (
 	"time"
 )
 
-func NewGRPCServer() (g *grpc.Server) {
-	g = grpc.NewServer(
+type EchoServer struct {
+	model.EchoClient
+}
+
+func NewEchoServer()(*EchoServer, error) {
+	return &EchoServer{}, nil
+}
+
+func (e *EchoServer) Echo(ctx context.Context, req *model.EchoRequest) (*model.EchoResponse, error) {
+	return nil, nil
+}
+
+func NewGRPCServer() (*grpc.Server, error) {
+	g := grpc.NewServer(
 		grpc_middleware.WithUnaryServerChain(
 			grpc_ctxtags.UnaryServerInterceptor(
 				grpc_ctxtags.WithFieldExtractor(
@@ -21,6 +35,11 @@ func NewGRPCServer() (g *grpc.Server) {
 			MaxConnectionAge: 10 * time.Second,
 		}),
 	)
+	e, err := NewEchoServer()
+	if err != nil {
+		return nil, nil
+	}
 
-	return g
+	model.RegisterEchoServer(g, e)
+	return g, nil
 }
