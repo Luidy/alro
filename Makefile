@@ -2,6 +2,11 @@ APP?=alro
 
 export GO111MODULE=on
 
+.PHONY: download
+download:
+# download named module into module cache(local storing)
+	go mod download
+
 .PHONY: build
 build:
 	$(info build alro)
