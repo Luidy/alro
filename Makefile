@@ -7,6 +7,12 @@ download:
 # download named module into module cache(local storing)
 	go mod download
 
+.PHONY: format
+format:
+	$(info format code)
+	gofmt -w .
+	go mod tidy
+
 .PHONY: build
 build:
 	$(info build alro)
