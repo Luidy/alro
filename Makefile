@@ -13,6 +13,12 @@ format:
 	gofmt -w .
 	go mod tidy
 
+.PHONY: lint
+lint:
+	$(info lint code)
+	golangci-lint run
+	go mod verify
+
 .PHONY: build
 build:
 	$(info build alro)
